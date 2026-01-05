@@ -21,6 +21,11 @@ body {
   pointer-events: none;
 }
 
+#mobile-controls-root,
+#mobile-controls-root * {
+  pointer-events: auto !important;
+}
+
 * {
   cursor: none !important;
 }
