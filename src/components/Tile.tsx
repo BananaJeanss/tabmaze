@@ -1,11 +1,8 @@
 import { useRef, useState } from "react";
 import { FaPersonRunning } from "react-icons/fa6";
 
-export interface TileProps {
-  customText?: string;
-}
-
-export default function Tile({ customText }: TileProps) {
+// cause its optional
+export default function Tile() {
   const [isSelected, setIsSelected] = useState(false);
   // Removed useNavigation() to prevent re-renders
   const buttonRef = useRef<HTMLButtonElement>(null);

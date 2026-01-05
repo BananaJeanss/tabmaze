@@ -1,4 +1,6 @@
 import { Suspense, lazy, type ComponentType } from 'react'
+import Page404 from './pages/404'
+import Sussy from './components/sussy'
 
 // 1. Auto-import all .tsx files from the src/pages folder
 const pages = import.meta.glob('./pages/*.tsx')
@@ -20,15 +22,11 @@ export default function App() {
   const Page = routes[path]
 
   if (!Page) {
-    return (
-      <div className="text-white w-full h-full flex items-center justify-center">
-        404 - Page Not Found
-      </div>
-    )
+    return Page404();
   }
 
   return (
-    <Suspense fallback={<div className="text-white p-10">Loading Level...</div>}>
+    <Suspense fallback={Sussy()}>
       <Page />
     </Suspense>
   )
