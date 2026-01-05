@@ -3,9 +3,10 @@ import { FaPersonRunning } from "react-icons/fa6";
 export interface ExitTileProps {
   customText?: string;
   nextLevel: string; // pathname
+  showExit?: boolean;
 }
 
-export default function ExitTile({ customText, nextLevel }: ExitTileProps) {
+export default function ExitTile({ customText, nextLevel, showExit = false }: ExitTileProps) {
   const [isSelected, setIsSelected] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -43,13 +44,13 @@ export default function ExitTile({ customText, nextLevel }: ExitTileProps) {
         window.location.href = nextLevel;
       }}
       className={`w-[5%] h-[5%] outline-none flex items-center justify-center ${
-        isSelected ? " text-red-500! underline border border-red-500" : ""
+        isSelected || showExit ? " text-red-500! underline border border-red-500" : ""
       }`}
     >
       <div
         className={`flex flex-row items-center justify-center w-full h-full gap-2 in-[.nav-backward]:flex-row-reverse`}
       >
-        <FaPersonRunning className="transition-transform in-[.nav-backward]:scale-x-[-1]" />
+        <FaPersonRunning className={`transition-transform in-[.nav-backward]:scale-x-[-1] ${isSelected ? "" : "hidden"}`} />
         {customText || "EXIT"}
       </div>
     </button>

@@ -5,11 +5,11 @@ export interface WallTileProps {
 
 function bricks() {
   return (
-    <div className="w-full h-full grid grid-rows-4 grid-cols-4 gap-0">
-      {Array.from({ length: 16 }).map((_, i) => (
+    <div className="w-full h-full grid grid-rows-5 grid-cols-5 gap-0">
+      {Array.from({ length: 25 }).map((_, i) => (
         <div
           key={i}
-          className="border border-gray-700 bg-gray-700/40 w-full h-full"
+          className={` w-full h-full${i % 2 === Math.floor(Math.random() * 3) ? " bg-gray-500/50" : "bg-transparent"}`}
         />
       ))}
     </div>
@@ -18,7 +18,7 @@ function bricks() {
 
 export default function WallTile({ customText, showWall }: WallTileProps) {
   const wallStyle = showWall
-    ? "bg-transparent border border-gray-800"
+    ? "bg-transparent border-4 border-gray-500/50"
     : "hidden";
 
   return (
