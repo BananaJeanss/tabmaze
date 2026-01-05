@@ -16,7 +16,6 @@ export default function MobileControls({ keyPressed }: MobileControlsProps) {
         onMouseDown={preventFocusSteal}
         onTouchStart={(e) => {
           preventFocusSteal(e);
-          keyPressed("Ctrl");
         }}
         className="bg-gray-800 text-white px-6 py-2 rounded-full grow pointer-events-auto"
         tabIndex={-1}
@@ -27,7 +26,6 @@ export default function MobileControls({ keyPressed }: MobileControlsProps) {
         onMouseDown={preventFocusSteal}
         onTouchStart={(e) => {
           preventFocusSteal(e);
-          keyPressed("Tab");
         }}
         onClick={() => keyPressed("Tab")}
         className="bg-gray-800 text-white px-6 py-4 rounded-full pointer-events-auto"
@@ -40,7 +38,6 @@ export default function MobileControls({ keyPressed }: MobileControlsProps) {
         onMouseDown={preventFocusSteal}
         onTouchStart={(e) => {
           preventFocusSteal(e);
-          keyPressed("CapsLock");
         }}
         className="bg-gray-800 text-white px-6 py-4 rounded-full pointer-events-auto"
         tabIndex={-1}
@@ -51,7 +48,6 @@ export default function MobileControls({ keyPressed }: MobileControlsProps) {
         onMouseDown={preventFocusSteal}
         onTouchStart={(e) => {
           preventFocusSteal(e);
-          keyPressed("ShiftTab");
         }}
         onClick={() => keyPressed("ShiftTab")}
         className="bg-gray-800 text-white px-6 py-4 rounded-full pointer-events-auto"
