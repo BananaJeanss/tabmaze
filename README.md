@@ -11,8 +11,9 @@ a maze game, in your browser, using tab, and some other keys
 - CapsLk: Up
 - Ctrl: Down
 - Enter: Enter Exit
-  > [!WARNING]
-  > Avoid pressing CTRL + Tab as it may switch browser tabs.
+
+> [!WARNING]
+> Avoid pressing CTRL + Tab as it may switch browser tabs.
 
 ## Development
 
