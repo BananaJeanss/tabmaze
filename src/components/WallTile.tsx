@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 export interface WallTileProps {
   customText?: string;
   showWall: boolean;
@@ -17,6 +19,8 @@ function bricks() {
 }
 
 export default function WallTile({ customText, showWall }: WallTileProps) {
+  const wallContent = useMemo(() => bricks(), []);
+
   const wallStyle = showWall
     ? "bg-transparent border-4 border-gray-500/50"
     : "hidden";
@@ -27,7 +31,7 @@ export default function WallTile({ customText, showWall }: WallTileProps) {
       className={`w-[5%] h-[5%] ${wallStyle} flex items-center justify-center`}
       data-wall
     >
-      {customText || bricks()}
+      {customText || wallContent}
     </button>
   );
 }

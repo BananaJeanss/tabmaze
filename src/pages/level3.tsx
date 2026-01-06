@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useControls from "../hooks/controls";
 import MapRender from "../components/mapRender";
 import type { CellType } from "../types/types";
+import MazeTester from "../hooks/MazeTester";
 
 export default function Level3() {
   const columns = 100 / 5;
@@ -14,6 +15,7 @@ export default function Level3() {
   const [level, setLevel] = useState<CellType[][]>([]);
 
   useEffect(() => {
+    let isBeatable = false;
     function generateLevel(cols: number, rows: number) {
       // random garbage level
 
@@ -41,9 +43,15 @@ export default function Level3() {
 
       return levelArray;
     }
+    while (!isBeatable) {
+      const generatedLevel = generateLevel(columns, rows);
 
-    const generatedLevel = generateLevel(columns, rows);
-    setLevel(generatedLevel);
+      isBeatable = MazeTester({ maze: generatedLevel });
+      console.log("Level generated, beatable:", isBeatable);
+      if (isBeatable) {
+        setLevel(generatedLevel);
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -1,38 +1,39 @@
-import { Suspense, lazy, type ComponentType } from "react";
+import { useEffect, useState } from "react";
+
+import Settings from "./components/Settings";
+import { BrowserRouter, Route, Routes } from "react-router";
+import Level1 from "./pages";
+import Level2 from "./pages/level2";
+import Level3 from "./pages/level3";
+import Level4 from "./pages/level4";
 import Page404 from "./pages/404";
-import Sussy from "./components/sussy";
-import TAB from "./components/TAB";
-
-// 1. Auto-import all .tsx files from the src/pages folder
-const pages = import.meta.glob("./pages/*.tsx");
-
-// 2. Create a route map dynamically
-const routes = Object.keys(pages).reduce((acc, filePath) => {
-  const name = filePath.match(/\.\/pages\/(.*)\.tsx$/)?.[1];
-
-  if (name) {
-    const routePath = name === "index" ? "/" : `/${name}`;
-    acc[routePath] = lazy(
-      pages[filePath] as () => Promise<{ default: ComponentType }>
-    );
-  }
-  return acc;
-}, {} as Record<string, React.LazyExoticComponent<ComponentType>>);
+import LevelLayout from "./pages/LevelLayout";
 
 export default function App() {
-  const path =
-    window.location.pathname === "/index.html" ? "/" : window.location.pathname;
-
-  const Page = routes[path];
-
-  if (!Page) {
-    return Page404();
-  }
-
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setIsSettingsOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
   return (
-    <Suspense fallback={Sussy()}>
-      <TAB />
-      <Page />
-    </Suspense>
+    <BrowserRouter>
+      {isSettingsOpen && <Settings setSettingsOpen={setIsSettingsOpen}/>}
+
+      <Routes>
+        <Route element={<LevelLayout />}>
+          <Route path="/" element={<Level1 />} />
+          <Route path="/level2" element={<Level2 />} />
+          <Route path="/level3" element={<Level3 />} />
+          <Route path="/level4" element={<Level4 />} />
+        </Route>
+        <Route path="*" element={<Page404 />} />
+      </Routes>
+    </BrowserRouter>
   );
 }

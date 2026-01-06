@@ -3,6 +3,7 @@ import useControls from "../hooks/controls";
 import MapRender from "../components/mapRender";
 import type { CellType } from "../types/types";
 import { PORTAL_COLORS } from "../hooks/color";
+import MazeTester from "../hooks/MazeTester";
 
 export default function Level5() {
   const columns = Math.floor(100 / 5);
@@ -19,10 +20,13 @@ export default function Level5() {
       // 1) Build a complete base grid first (walls/empty)
       const grid: CellType[][] = Array.from({ length: rows }, () =>
         Array.from({ length: cols }, (_, c): CellType => {
+          // Place walls on the left, right, and two central columns
           if (
             c === 0 ||
             c === cols - 1 ||
-            c === Math.floor(cols / 4) ||
+            c === Math.floor(cols / 2) ||
+            c === Math.ceil(cols / 4) ||
+            c === Math.floor((3 * cols) / 4) ||
             c === Math.ceil(cols / 2) - 1
           ) {
             return "wall";
@@ -83,6 +87,18 @@ export default function Level5() {
 
       return grid;
     }
+
+    let isBeatable = false;
+    while (isBeatable) {
+      const generatedLevel = generateLevel(columns, rows);
+        isBeatable = MazeTester({ maze: generatedLevel });
+        console.log("Level generated, beatable:", isBeatable);
+        if (isBeatable) {
+          setLevel(generatedLevel);
+        }
+    }
+
+    console.log("Generated level is beatable:", isBeatable);
 
     setLevel(generateLevel(columns, rows));
     // eslint-disable-next-line react-hooks/exhaustive-deps

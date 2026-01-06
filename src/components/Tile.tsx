@@ -25,7 +25,7 @@ export default function Tile() {
       <img
         src="/pixelatedFaRunning.png"
         style={{ width: "auto", height: "auto", maxWidth: 20, maxHeight: 20, filter: isSelected ? "invert(100%)" : "invert(0%)" }}
-        className="m-auto h-full transition-transform in-[.nav-backward]:scale-x-[-1]"
+        className="m-auto h-full in-[.nav-backward]:scale-x-[-1]"
         alt="Running Person"
       />
     </button>

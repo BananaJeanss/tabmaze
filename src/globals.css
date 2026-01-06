@@ -33,6 +33,12 @@ body {
   pointer-events: auto !important;
 }
 
+#settings-modal *,
+#settings-modal {
+  pointer-events: auto !important;
+  cursor: auto !important;
+}
+
 * {
   cursor: none !important;
 }

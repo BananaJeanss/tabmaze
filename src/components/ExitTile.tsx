@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import PlayBeep from "../hooks/beeper";
+import { useNavigate } from "react-router";
 export interface ExitTileProps {
   customText?: string;
   nextLevel: string; // pathname
@@ -39,6 +40,8 @@ export default function ExitTile({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  const navigate = useNavigate();
+
   return (
     <button
       ref={buttonRef}
@@ -50,7 +53,7 @@ export default function ExitTile({
           PlayBeep(0.3, 880, 0.3);
         }, 200);
         setTimeout(() => {
-          window.location.href = nextLevel;
+          navigate(nextLevel);
         }, 300);
       }}
       className={`w-[5%] h-[5%] outline-none flex items-center justify-center ${
@@ -65,7 +68,7 @@ export default function ExitTile({
         <img
           src="/pixelatedFaRunning.png"
           style={{ width: "auto", height: "auto", maxWidth: 20, maxHeight: 20 }}
-          className={`transition-transform in-[.nav-backward]:scale-x-[-1] invert-100 ${
+          className={`in-[.nav-backward]:scale-x-[-1] invert-100 ${
             isSelected ? "" : "hidden"
           }`}
         />
