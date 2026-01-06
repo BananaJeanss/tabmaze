@@ -36,18 +36,15 @@ export default function Level5() {
     }
 
     let isBeatable = false;
-    while (isBeatable) {
-      const generatedLevel = generateLevel(columns, rows);
+    let generatedLevel: CellType[][] = [];
+    while (!isBeatable) {
+      generatedLevel = generateLevel(columns, rows);
       isBeatable = MazeTester({ maze: generatedLevel });
       console.log("Level generated, beatable:", isBeatable);
-      if (isBeatable) {
-        setLevel(generatedLevel);
-      }
     }
 
     console.log("Generated level is beatable:", isBeatable);
-
-    setLevel(generateLevel(columns, rows));
+    setLevel(generatedLevel);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -16,18 +16,35 @@ export default function Level6() {
 
   useEffect(() => {
     function generateLevel(cols: number, rows: number): CellType[][] {
-      const grid: CellType[][] = Array.from({ length: rows }, () =>
-        Array.from({ length: cols }, (_, c): CellType => {
-          for (let r = 0; r < rows; r++) {
-            if (c === cols / 2 && r === Math.floor(Math.random() * 50)) {
-              return ["oneway", { direction: "right" }];
-            } else if (c === cols / 2 - 1 && r) {
-              return "empty";
-            }
+      const grid: CellType[][] = [];
+      const evilerRow = Math.floor(rows / 2);
+      const evilerCol = Math.floor(cols / 2);
+
+      for (let r = 0; r < rows; r++) {
+        const rowArray: CellType[] = [];
+        for (let c = 0; c < cols; c++) {
+          if (r === evilerRow && c === evilerCol) {
+            rowArray.push("eviler");
+            console.log("Spawned eviler at", r, c);
+          } else if (Math.random() < 0.05) {
+            rowArray.push("wall");
+          } else if (c % 6 === 0 || r % 7 === 0) { // six sayveeeeen
+            // Some one-way tiles in the middle column with random direction
+            const directions = ["up", "down", "left", "right"] as const;
+            const roll = Math.floor(Math.random() * directions.length);
+            rowArray.push([
+              "oneway",
+              { direction: directions[roll] },
+            ] as CellType);
+          } else {
+            rowArray.push("empty");
           }
-          return Math.random() < 0.2 ? "wall" : "empty";
-        })
-      );
+        }
+        grid.push(rowArray);
+      }
+
+      for (let r = 0; r < rows; r++) grid[r][0] = "wall";
+      for (let r = 0; r < rows; r++) grid[r][cols - 1] = "wall";
 
       // place exit
       grid[rows - 1][cols - 1] = "exit";
@@ -36,18 +53,15 @@ export default function Level6() {
     }
 
     let isBeatable = false;
-    while (isBeatable) {
-      const generatedLevel = generateLevel(columns, rows);
+    let generatedLevel: CellType[][] = [];
+    while (!isBeatable) {
+      generatedLevel = generateLevel(columns, rows);
       isBeatable = MazeTester({ maze: generatedLevel });
       console.log("Level generated, beatable:", isBeatable);
-      if (isBeatable) {
-        setLevel(generatedLevel);
-      }
     }
 
     console.log("Generated level is beatable:", isBeatable);
-
-    setLevel(generateLevel(columns, rows));
+    setLevel(generatedLevel);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

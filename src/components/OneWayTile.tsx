@@ -16,12 +16,18 @@ export default function OneWayTile({ whichWay }: OneWayTileProps) {
     up: "border-b-4",
     down: "border-t-4",
   };
+  const blueMap: Record<string, string> = {
+    left: "border-r-blue-500",
+    right: "border-l-blue-500",
+    up: "border-b-blue-500",
+    down: "border-t-blue-500",
+  };
   return (
     <button
       ref={buttonRef}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      className={`w-[5%] h-[5%] flex items-center justify-center border-4 ${isSelected ? "border-white" : "border-gray-500/50"} ${borderMap[whichWay]} border-l-blue-500 outline-none`}
+      className={`w-[5%] h-[5%] flex items-center justify-center border-4 ${isSelected ? "border-white" : "border-gray-500/50"} ${borderMap[whichWay]} ${blueMap[whichWay]} outline-none`}
       data-onewaytile
       data-onewaydirection={whichWay}
     >
