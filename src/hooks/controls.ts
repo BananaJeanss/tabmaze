@@ -5,6 +5,10 @@ import MobileControls, {
 } from "../components/MobileControls";
 
 export default function useControls(columns: number) {
+
+
+
+    
   // if el chapo wants to play on mobile we give the mf mobile controls this is 2025
   useEffect(() => {
     const isMobileElNoKeyboard = /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;

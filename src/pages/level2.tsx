@@ -62,6 +62,6 @@ export default function Level2() {
   }, []);
 
   return (
-    <MapRender level={level} nextLevel="/level3" />
+    <MapRender level={level} nextLevel="/level3" showExit={true}/>
   );
 }

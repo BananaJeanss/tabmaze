@@ -23,7 +23,8 @@ export default function Tile() {
         [.nav-backward_&]:scale-x-[-1] 
         This means: "When an ancestor has class .nav-backward, apply scale-x-[-1] to this element"
       */}
-      <FaPersonRunning className="m-auto transition-transform in-[.nav-backward]:scale-x-[-1]" />
+      <FaPersonRunning className="m-auto h-full transition-transform in-[.nav-backward]:scale-x-[-1]"
+      style={{imageRendering: "pixelated"}} />
     </button>
   );
 }

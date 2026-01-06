@@ -9,52 +9,61 @@ export default function MobileControls({ keyPressed }: MobileControlsProps) {
   const preventFocusSteal = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
   };
+
+  const ButtonStyling =
+    "bg-gray-800/50 border border-gray-600/70 text-white px-6 py-6 rounded-full pointer-events-auto aspect-square flex items-center justify-center";
   return (
-    <div className="fixed bottom-4 left-8 grid grid-cols-3 grid-rows-2 gap-2 z-50 pointer-events-auto">
-      <button
-        onClick={() => keyPressed("Ctrl")}
-        onMouseDown={preventFocusSteal}
-        onTouchStart={(e) => {
-          preventFocusSteal(e);
-        }}
-        className="bg-gray-800 text-white px-6 py-2 rounded-full grow pointer-events-auto"
-        tabIndex={-1}
-      >
-        Ctrl
-      </button>
-      <button
-        onMouseDown={preventFocusSteal}
-        onTouchStart={(e) => {
-          preventFocusSteal(e);
-        }}
-        onClick={() => keyPressed("Tab")}
-        className="bg-gray-800 text-white px-6 py-4 rounded-full pointer-events-auto"
-        tabIndex={-1}
-      >
-        <GoTab />
-      </button>
-      <button
-        onClick={() => keyPressed("CapsLock")}
-        onMouseDown={preventFocusSteal}
-        onTouchStart={(e) => {
-          preventFocusSteal(e);
-        }}
-        className="bg-gray-800 text-white px-6 py-4 rounded-full pointer-events-auto"
-        tabIndex={-1}
-      >
-        <BsCapslock />
-      </button>
-      <button
-        onMouseDown={preventFocusSteal}
-        onTouchStart={(e) => {
-          preventFocusSteal(e);
-        }}
-        onClick={() => keyPressed("ShiftTab")}
-        className="bg-gray-800 text-white px-6 py-4 rounded-full pointer-events-auto"
-        tabIndex={-1}
-      >
-        <BsShift />
-      </button>
-    </div>
+    <>
+      {/* left side controls */}
+      <div className="fixed flex flex-col gap-4 bottom-1/3 left-1/10 transform -translate-x-1/2 z-50 pointer-events-none">
+        <button
+          onMouseDown={preventFocusSteal}
+          onTouchStart={(e) => {
+            preventFocusSteal(e);
+          }}
+          onClick={() => keyPressed("ShiftTab")}
+          className={ButtonStyling}
+          tabIndex={-1}
+        >
+          <BsShift />
+        </button>
+        <button
+          onClick={() => keyPressed("Ctrl")}
+          onMouseDown={preventFocusSteal}
+          onTouchStart={(e) => {
+            preventFocusSteal(e);
+          }}
+          className={ButtonStyling}
+          tabIndex={-1}
+        >
+          Ctrl
+        </button>
+      </div>
+      {/* right side controls */}
+      <div className="fixed flex flex-col gap-4 bottom-1/3 right-1/10 transform translate-x-1/2 z-50 pointer-events-none">
+        <button
+          onMouseDown={preventFocusSteal}
+          onTouchStart={(e) => {
+            preventFocusSteal(e);
+          }}
+          onClick={() => keyPressed("Tab")}
+          className={ButtonStyling}
+          tabIndex={-1}
+        >
+          <GoTab />
+        </button>
+        <button
+          onClick={() => keyPressed("CapsLock")}
+          onMouseDown={preventFocusSteal}
+          onTouchStart={(e) => {
+            preventFocusSteal(e);
+          }}
+          className={ButtonStyling}
+          tabIndex={-1}
+        >
+          <BsCapslock />
+        </button>
+      </div>
+    </>
   );
 }
