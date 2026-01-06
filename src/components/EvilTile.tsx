@@ -28,15 +28,9 @@ export default function EvilTile() {
   return (
     <button
       ref={buttonRef}
-      onFocus={() => {
-        const allButtons = Array.from(document.querySelectorAll("button")) as HTMLButtonElement[];
-        const firstNonWall = allButtons.find((btn) => !btn.hasAttribute("data-wall"));
-        if (firstNonWall) {
-          firstNonWall.focus();
-        }
-      }}
       className={`w-[5%] h-[5%] bg-transparent border-4 border-red-500/50 flex items-center justify-center
       }`}
+      data-evil
     >
       <div
         className={`flex flex-row items-center justify-center w-full h-full gap-2 in-[.nav-backward]:flex-row-reverse`}

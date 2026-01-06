@@ -1,39 +1,38 @@
-import { createElement, useEffect } from "react";
+import { createElement, useCallback, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import MobileControls, {
   type MobileControlsProps,
 } from "../components/MobileControls";
+import PlayBeep from "./beeper";
 
 export default function useControls(columns: number) {
-
-
-
-    
   // if el chapo wants to play on mobile we give the mf mobile controls this is 2025
   useEffect(() => {
-    const isMobileElNoKeyboard = /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    const isMobileElNoKeyboard =
+      /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth <= 768;
 
     console.log("is mobile:", isMobileElNoKeyboard);
 
     if (isMobileElNoKeyboard) {
       const mobileControlsProps: MobileControlsProps = {
         keyPressed(key) {
-            // either Tab, ShiftTab, CapsLock, Ctrl
-            const keyboardEvent = new KeyboardEvent("keydown", {
-              key: key === "ShiftTab" ? "Tab" : key === "Ctrl" ? "Control" : key,
-              shiftKey: key === "ShiftTab",
-              ctrlKey: key === "Ctrl",
-              bubbles: true,
-            });
-            window.dispatchEvent(keyboardEvent);
+          // either Tab, ShiftTab, CapsLock, Ctrl
+          const keyboardEvent = new KeyboardEvent("keydown", {
+            key: key === "ShiftTab" ? "Tab" : key === "Ctrl" ? "Control" : key,
+            shiftKey: key === "ShiftTab",
+            ctrlKey: key === "Ctrl",
+            bubbles: true,
+          });
+          window.dispatchEvent(keyboardEvent);
         },
       };
 
       const mobileControlsElement = document.createElement("div");
       mobileControlsElement.id = "mobile-controls-root";
-      mobileControlsElement.style.cssText = "position: fixed; bottom: 0; left: 0; z-index: 9999; pointer-events: auto;";
+      mobileControlsElement.style.cssText =
+        "position: fixed; bottom: 0; left: 0; z-index: 9999; pointer-events: auto;";
       document.body.appendChild(mobileControlsElement);
-      
+
       const root = createRoot(mobileControlsElement);
       root.render(createElement(MobileControls, mobileControlsProps));
 
@@ -43,6 +42,64 @@ export default function useControls(columns: number) {
       };
     }
   }, []);
+
+  // move handler
+  const moveFocusToButtonAtIndex: (index: number) => void = useCallback(
+    (index: number) => {
+      const allButtons = Array.from(
+        document.querySelectorAll("#root button")
+      ) as HTMLButtonElement[];
+      if (index >= 0 && index < allButtons.length) {
+        const button = allButtons[index];
+        if (button && button.hasAttribute("data-portal")) {
+          const to = button.getAttribute("data-portal-to"); // "row,col"
+          if (to) {
+            const [toRow, toCol] = to.split(",").map((n) => Number(n));
+            const targetIndex = toRow * columns + toCol;
+            const target = allButtons[targetIndex];
+
+            // avoid focusing walls/disabled buttons (they won't take focus anyway)
+            if (
+              target &&
+              !target.hasAttribute("data-wall") &&
+              !target.disabled
+            ) {
+              target.focus();
+              PlayBeep(0.1, 550, 0.2);
+              setTimeout(() => {
+                PlayBeep(0.1, 660, 0.3);
+              }, 100);
+              return;
+            }
+          }
+          // if parsing fails / target invalid, fall through to normal behavior
+        }
+        if (button && button.hasAttribute("data-evil")) {
+          // evil tile sound
+          PlayBeep(0.3, 110, 0.3);
+          setTimeout(() => {
+            PlayBeep(0.3, 55, 0.3);
+          }, 300);
+          const allButtons = Array.from(
+            document.querySelectorAll("button")
+          ) as HTMLButtonElement[];
+          const firstNonWall = allButtons.find(
+            (btn) => !btn.hasAttribute("data-wall")
+          );
+          if (firstNonWall) {
+            firstNonWall.focus();
+          }
+          // evil tiles are evil
+          return;
+        }
+        if (button && !button.hasAttribute("data-wall") && !button.disabled) {
+          button.focus();
+          PlayBeep(0.1, 440, 0.1); // normal button sound
+        }
+      }
+    },
+    [columns]
+  );
 
   // block default tab/shift tab functionality
   useEffect(() => {
@@ -56,7 +113,6 @@ export default function useControls(columns: number) {
         ) as HTMLButtonElement[];
 
         if (!focusedElement || focusedElement.tagName !== "BUTTON") {
-          // focus on first non-wall button if none focused
           const firstNonWall = allButtons.find(
             (btn) => !btn.hasAttribute("data-wall")
           );
@@ -68,26 +124,16 @@ export default function useControls(columns: number) {
           focusedElement as HTMLButtonElement
         );
 
-        let nextIndex: number;
-        if (e.shiftKey) {
-          nextIndex = currentIndex - 1; // Moving backwards
-        } else {
-          nextIndex = currentIndex + 1; // Moving forwards
-        }
+        const nextIndex = e.shiftKey ? currentIndex - 1 : currentIndex + 1;
 
-        if (nextIndex >= 0 && nextIndex < allButtons.length) {
-          const nextButton = allButtons[nextIndex];
-          if (!nextButton.hasAttribute("data-wall")) {
-            nextButton.focus();
-          }
-        }
+        moveFocusToButtonAtIndex(nextIndex);
       }
     };
 
     // add event listener
     window.addEventListener("keydown", HandleTabMySelf);
     return () => window.removeEventListener("keydown", HandleTabMySelf);
-  }, []);
+  }, [columns, moveFocusToButtonAtIndex]);
 
   // r is for refresh cause we disabled ctrl
   useEffect(() => {
@@ -135,14 +181,12 @@ export default function useControls(columns: number) {
             newIndex = currentIndex + columns; // Move down
           }
 
-          if (newIndex >= 0 && newIndex < buttons.length) {
-            (buttons[newIndex] as HTMLElement).focus();
-          }
+          moveFocusToButtonAtIndex(newIndex);
         }
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [columns]);
+  }, [columns, moveFocusToButtonAtIndex]);
 }

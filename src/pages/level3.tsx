@@ -3,8 +3,7 @@ import useControls from "../hooks/controls";
 import MapRender from "../components/mapRender";
 import type { CellType } from "../types/types";
 
-export default function Level2() {
-  // Formula based on w-[5%] and h-[5%] in Tile.tsx
+export default function Level3() {
   const columns = 100 / 5;
   const rows = 100 / 5;
 

@@ -1,6 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 @import "tailwindcss";
 
+:root {
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+}
+
 html,
 body {
   font-family: "VT323", monospace;
@@ -10,6 +15,8 @@ body {
   cursor: none !important;
   min-height: 100vh;
   overflow: hidden;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
 }
 
 #root > * {

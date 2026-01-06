@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { FaPersonRunning } from "react-icons/fa6";
 
 // cause its optional
 export default function Tile() {
@@ -23,8 +22,12 @@ export default function Tile() {
         [.nav-backward_&]:scale-x-[-1] 
         This means: "When an ancestor has class .nav-backward, apply scale-x-[-1] to this element"
       */}
-      <FaPersonRunning className="m-auto h-full transition-transform in-[.nav-backward]:scale-x-[-1]"
-      style={{imageRendering: "pixelated"}} />
+      <img
+        src="/pixelatedFaRunning.png"
+        style={{ width: "auto", height: "auto", maxWidth: 20, maxHeight: 20, filter: isSelected ? "invert(100%)" : "invert(0%)" }}
+        className="m-auto h-full transition-transform in-[.nav-backward]:scale-x-[-1]"
+        alt="Running Person"
+      />
     </button>
   );
 }
