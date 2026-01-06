@@ -1,27 +1,31 @@
 import { useRef, useState } from "react";
 
-// cause its optional
-export default function Tile() {
+export interface OneWayTileProps {
+  whichWay: "left" | "right" | "up" | "down";
+}
+
+export default function OneWayTile({ whichWay }: OneWayTileProps) {
   const [isSelected, setIsSelected] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const handleFocus = () => setIsSelected(true);
   const handleBlur = () => setIsSelected(false);
-
+  const borderMap: Record<string, string> = {
+    left: "border-r-4",
+    right: "border-l-4",
+    up: "border-b-4",
+    down: "border-t-4",
+  };
   return (
     <button
       ref={buttonRef}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      className={`w-[5%] h-[5%] outline-none ${
-        isSelected ? " text-white! border-4 border-white" : ""
-      } data-evilIsOnTile:border-4 data-evilIsOnTile:border-red-600`}
+      className={`w-[5%] h-[5%] flex items-center justify-center border-4 ${isSelected ? "border-white" : "border-gray-500/50"} ${borderMap[whichWay]} border-l-blue-500 outline-none`}
+      data-onewaytile
+      data-onewaydirection={whichWay}
     >
-      {/* 
-        [.nav-backward_&]:scale-x-[-1] 
-        This means: "When an ancestor has class .nav-backward, apply scale-x-[-1] to this element"
-      */}
-      <img
+              <img
         src="/pixelatedFaRunning.png"
         style={{
           width: "auto",

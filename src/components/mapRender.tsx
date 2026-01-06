@@ -4,6 +4,8 @@ import ExitTile from "./ExitTile";
 import Tile from "./Tile";
 import WallTile from "./WallTile";
 import PortalTile from "./PortalTile";
+import MoreEvilTile from "./MoreEvilTile";
+import OneWayTile from "./OneWayTile";
 
 export interface MapRenderProps {
   level: CellType[][];
@@ -13,6 +15,10 @@ export interface MapRenderProps {
 
 function isPortal(cell: CellType): cell is PortalCell {
   return Array.isArray(cell) && cell[0] === "portal";
+}
+
+function isOneWay(cell: CellType): cell is ["oneway", { direction: "left" | "right" | "up" | "down" }] {
+  return Array.isArray(cell) && cell[0] === "oneway";
 }
 
 export default function MapRender({ level, nextLevel, showExit }: MapRenderProps) {
@@ -28,9 +34,14 @@ export default function MapRender({ level, nextLevel, showExit }: MapRenderProps
             return <ExitTile key={key} nextLevel={nextLevel} showExit={showExit} />;
           } else if (tileType === "evil") {
             return <EvilTile key={key} />;
+          } else if (tileType === "eviler") {
+            return <MoreEvilTile key={key} />;
           } else if (isPortal(tileType)) {
             const [, data] = tileType;
             return <PortalTile key={key} TeleportTo={data.to} AnyColor={data.color || "blue"} />;
+          } else if (isOneWay(tileType)) {
+            const [, data] = tileType;
+            return <OneWayTile key={key} whichWay={data.direction} />;
           } else {
             return <Tile key={key} />;
           }

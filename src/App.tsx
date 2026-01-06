@@ -8,6 +8,8 @@ import Level3 from "./pages/level3";
 import Level4 from "./pages/level4";
 import Page404 from "./pages/404";
 import LevelLayout from "./pages/LevelLayout";
+import Level5 from "./pages/level5";
+import Level6 from "./pages/level6";
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -31,6 +33,8 @@ export default function App() {
           <Route path="/level2" element={<Level2 />} />
           <Route path="/level3" element={<Level3 />} />
           <Route path="/level4" element={<Level4 />} />
+          <Route path="/level5" element={<Level5/>} />
+          <Route path="/level6" element={<Level6/>} />
         </Route>
         <Route path="*" element={<Page404 />} />
       </Routes>

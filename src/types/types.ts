@@ -6,4 +6,11 @@ export type PortalCell = [
   }
 ];
 
-export type CellType = "wall" | "exit" | "empty" | "evil" | PortalCell;
+export type OneWayCell = [
+  "oneway",
+  {
+    direction: "left" | "right" | "up" | "down";
+  }
+];
+
+export type CellType = "wall" | "exit" | "empty" | "evil" | "eviler" | OneWayCell | PortalCell;

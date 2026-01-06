@@ -58,7 +58,7 @@ export default function ExitTile({
       }}
       className={`w-[5%] h-[5%] outline-none flex items-center justify-center ${
         isSelected || showExit
-          ? " text-red-500! underline border border-red-500"
+          ? " text-red-500! underline border-4 border-red-500"
           : ""
       }`}
     >
@@ -68,7 +68,7 @@ export default function ExitTile({
         <img
           src="/pixelatedFaRunning.png"
           style={{ width: "auto", height: "auto", maxWidth: 20, maxHeight: 20 }}
-          className={`in-[.nav-backward]:scale-x-[-1] invert-100 ${
+          className={`in-[.nav-backward]:scale-x-[-1] ${
             isSelected ? "" : "hidden"
           }`}
         />

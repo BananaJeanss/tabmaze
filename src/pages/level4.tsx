@@ -5,7 +5,7 @@ import type { CellType } from "../types/types";
 import { PORTAL_COLORS } from "../hooks/color";
 import MazeTester from "../hooks/MazeTester";
 
-export default function Level5() {
+export default function Level4() {
   const columns = Math.floor(100 / 5);
   const rows = Math.floor(100 / 5);
 
