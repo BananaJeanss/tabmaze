@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { CellType, PortalCell } from "../types/types";
 import EvilTile from "./EvilTile";
 import ExitTile from "./ExitTile";
@@ -6,6 +7,7 @@ import WallTile from "./WallTile";
 import PortalTile from "./PortalTile";
 import MoreEvilTile from "./MoreEvilTile";
 import OneWayTile from "./OneWayTile";
+import { useSharedStopwatch } from "../hooks/stopwatch/useSharedStopwatch";
 
 export interface MapRenderProps {
   level: CellType[][];
@@ -22,6 +24,13 @@ function isOneWay(cell: CellType): cell is ["oneway", { direction: "left" | "rig
 }
 
 export default function MapRender({ level, nextLevel, showExit }: MapRenderProps) {
+  const { startTiming } = useSharedStopwatch();
+  
+  // Start timing only once when the component mounts
+  useEffect(() => {
+    startTiming();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       {level.map((row, rowIndex) =>

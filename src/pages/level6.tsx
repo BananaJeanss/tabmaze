@@ -65,5 +65,5 @@ export default function Level6() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <MapRender level={level} nextLevel="/level6" showExit={true} />;
+  return <MapRender level={level} nextLevel="/infinite" showExit={true} />;
 }

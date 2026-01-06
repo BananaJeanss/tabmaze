@@ -10,6 +10,7 @@ import Page404 from "./pages/404";
 import LevelLayout from "./pages/LevelLayout";
 import Level5 from "./pages/level5";
 import Level6 from "./pages/level6";
+import Infinite from "./pages/infinite";
 
 export default function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/level4" element={<Level4 />} />
           <Route path="/level5" element={<Level5/>} />
           <Route path="/level6" element={<Level6/>} />
+          <Route path="/infinite" element={<Infinite/>} />
         </Route>
         <Route path="*" element={<Page404 />} />
       </Routes>

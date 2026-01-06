@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { GoTab } from "react-icons/go";
 
 // big TAB screen
 export default function TAB() {
@@ -23,12 +24,27 @@ export default function TAB() {
     };
   }, []);
 
+  const [flipflop, setFlipflop] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFlipflop((prev) => !prev);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div
       className={`w-screen h-screen absolute top-0 left-0 bg-black/50 flex z-100 flex-nowrap! items-center justify-center text-white text-[25vw]`}
       style={{ display: isPersonFocusedOnAnything() ? "none" : "flex" }}
     >
-      TAB
+      {flipflop ? "TAB" : <GoTab />
+      }
     </div>
   );
 }
+// <img
+//        src="/pxltab.png"
+//        style={{ width: "auto", height: "50vh", maxWidth: "90vw", maxHeight: "90vh", filter: "invert(100%)" }}
+//        alt="TAB Icon"
+//          />

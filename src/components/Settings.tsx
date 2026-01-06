@@ -7,7 +7,11 @@ export default function Settings({
 }) {
   const [beeperEnabled, setBeeperEnabled] = useLocalStorage<boolean>(
     "beeperEnabled",
-    false
+    true
+  );
+  const [stopwatchEnabled, setStopwatchEnabled] = useLocalStorage<boolean>(
+    "stopwatchEnabled",
+    true
   );
 
   return (
@@ -26,6 +30,16 @@ export default function Settings({
             }}
           />
           <label>Beeper</label>
+        </div>
+        <div className="flex flex-row gap-2 mt-2">
+          <input
+            type="checkbox"
+            checked={stopwatchEnabled}
+            onChange={(e) => {
+              setStopwatchEnabled(e.target.checked);
+            }}
+          />
+          <label>Stopwatch</label>
         </div>
         <button
           onClick={() => setSettingsOpen(false)}

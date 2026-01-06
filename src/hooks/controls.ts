@@ -192,6 +192,29 @@ export default function useControls(columns: number) {
               !targetButton.disabled
             ) {
               // teleport eviler
+              if (targetButton.hasAttribute("data-portal")) {
+                // if walk into portal, tp
+                const to = targetButton.getAttribute("data-portal-to"); // "row,col"
+                if (to) {
+                  const [toRow, toCol] = to.split(",").map((n) => Number(n));
+                  const targetIndex = toRow * columns + toCol;
+                  const portalTargetButton = allButtons[targetIndex];
+                  if (
+                    portalTargetButton &&
+                    !portalTargetButton.hasAttribute("data-wall") &&
+                    !portalTargetButton.hasAttribute("data-evilIsOnTile") &&
+                    !portalTargetButton.disabled
+                  ) {
+                    portalTargetButton.setAttribute(
+                      "data-evilIsOnTile",
+                      "true"
+                    );
+                    eviler.removeAttribute("data-evilIsOnTile");
+                    cleanTpTileFound = true;
+                    return;
+                  }
+                }
+              }
               targetButton.setAttribute("data-evilIsOnTile", "true");
               eviler.removeAttribute("data-evilIsOnTile");
               cleanTpTileFound = true;
